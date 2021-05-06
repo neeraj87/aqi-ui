@@ -38,19 +38,19 @@
     </v-app-bar>
 
     <v-main>
-      <HelloWorld/>
+      <AQIComponent/>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import AQIComponent from "./components/AQIComponent";
 
 export default {
   name: 'App',
 
   components: {
-    HelloWorld,
+    AQIComponent
   },
 
   data: () => ({
