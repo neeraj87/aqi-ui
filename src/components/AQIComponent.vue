@@ -1,46 +1,63 @@
 <template>
-    <v-container>
-        <AQITableComponent :aqiList="aqiDataList" />
-        <!-- <v-simple-table>
-            <template v-slot:default>
-                <thead>
-                    <tr>
-                        <th class="text-left">
-                            City
-                        </th>
-                        <th class="text-left">
-                            Current AQI
-                        </th>
-                        <th>Last Updated</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr
-                    v-for="item in aqiDataList"
-                    :key="item.lastUpdated"
-                    >
-                        <td>{{ item.city }}</td>
-                        <td>{{ item.aqi }}</td>
-                        <td>{{ item.lastUpdated }}</td>
-                    </tr>
-                </tbody>
-            </template>
-        </v-simple-table> -->
-    </v-container>
+    <!-- <v-container> -->
+        <v-row>
+            <v-col
+                class="mb-5"
+                cols="12"
+                md="12" lg="12" xl="12" sm="12"
+            >
+               <WelcomeComponent />
+            </v-col>
+
+            <v-col
+                class="mb-5"
+                cols="6"
+                md="12" lg="6" xl="6" sm="12"
+            >
+               <AQITableComponent :aqiList="aqiDataList" />
+            </v-col>
+
+            <v-col
+                class="mb-5"
+                cols="6"
+                md="12" lg="6" xl="6" sm="12"
+            >
+                <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
+            </v-col>
+
+            <v-col
+                class="mb-5"
+                cols="12"
+                md="12" lg="12" xl="12" sm="12"
+            >
+               <HistoricAQIComponent />
+            </v-col>
+        </v-row>
+    <!-- </v-container> -->
 </template>
 
 <script>
+var uniqid = require('uniqid');
+import moment from 'moment';
+
+import WelcomeComponent from './WelcomeComponent';
 import AQITableComponent from './AQITableComponent';
+import AQIChartComponent from './AQIChartComponent';
+import HistoricAQIComponent from './HistoricAQIComponent';
 
 export default {
     name: 'AQIComponent',
     components: {
-        AQITableComponent
+        WelcomeComponent,
+        AQITableComponent,
+        AQIChartComponent,
+        HistoricAQIComponent
     },
     data: function () {
         return {
             connection: null,
-            aqiDataList: []
+            aqiDataList: [],
+            aqiLineChartData: {}
         };
     },
     mounted() {
@@ -59,6 +76,9 @@ export default {
             this.aqiDataList = [];
 
             let parsedData = JSON.parse(aqiDataString);
+
+            this.aqiLineChartData.lastUpdatedTime = moment(Date.now()).format("h:mm a");
+            this.aqiLineChartData.data = Math.floor(Math.random() * 50);
 
             parsedData.forEach((aqiData) => {
                 let aqi = aqiData.aqi;
@@ -91,12 +111,13 @@ export default {
                 }
 
                 this.aqiDataList.push({
+                    id: uniqid(),
                     city: aqiData.city,
                     aqi: parseFloat(aqiData.aqi).toFixed(2),
                     aqiCategory: aqiCategory,
                     aqiCategoryColor: aqiCategoryColor,
                     aqiCategoryColorClass: aqiCategoryColorClass,
-                    lastUpdated: Date.now()
+                    lastUpdated: moment(Date.now()).format("DD/MM/YYYY, h:mm a")
                 });
             });
 
