@@ -7,20 +7,12 @@
     >
       <div class="d-flex align-center">
         <v-toolbar-title class="headline">
-          <span>AQI Dashboard</span>
+          <span>Air Quality Index (AQI) Dashboard</span>
         </v-toolbar-title>
       </div>
 
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/neeraj87/electron-memory-game"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Github Repo</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      
     </v-app-bar>
 
     <v-main>
