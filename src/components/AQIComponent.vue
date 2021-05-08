@@ -70,11 +70,11 @@ export default {
         console.log("Starting connection to WebSocket Server");
         this.connection = new WebSocket("wss://city-ws.herokuapp.com");
 
+        this.aqiDataList = [];
         this.connection.onmessage = (event) => {
             //console.log(event.data);
             let aqiDataString = event.data;
-            this.aqiDataList = [];
-
+            
             let parsedData = JSON.parse(aqiDataString);
 
             this.aqiLineChartData.lastUpdatedTime = moment(Date.now()).format("h:mm a");
@@ -110,15 +110,25 @@ export default {
                     aqiCategoryColorClass = 'severe-aqi';
                 }
 
-                this.aqiDataList.push({
-                    id: uniqid(),
-                    city: aqiData.city,
-                    aqi: parseFloat(aqiData.aqi).toFixed(2),
-                    aqiCategory: aqiCategory,
-                    aqiCategoryColor: aqiCategoryColor,
-                    aqiCategoryColorClass: aqiCategoryColorClass,
-                    lastUpdated: moment(Date.now()).format("DD/MM/YYYY, h:mm a")
-                });
+                if(!this.aqiDataList.some(item => item.city === aqiData.city)) {
+                    this.aqiDataList.push({
+                        id: uniqid(),
+                        city: aqiData.city,
+                        aqi: parseFloat(aqiData.aqi).toFixed(2),
+                        aqiCategory: aqiCategory,
+                        aqiCategoryColor: aqiCategoryColor,
+                        aqiCategoryColorClass: aqiCategoryColorClass,
+                        lastUpdated: moment(Date.now()).format("DD/MM/YYYY, h:mm a")
+                    });
+                } else {
+                    let existingAQIData = this.aqiDataList.find(item => item.city === aqiData.city);
+                    existingAQIData.aqi = parseFloat(aqiData.aqi).toFixed(2);
+                    existingAQIData.aqiCategory = aqiCategory;
+                    existingAQIData.aqiCategoryColor = aqiCategoryColor;
+                    existingAQIData.aqiCategoryColorClass = aqiCategoryColorClass;
+                    existingAQIData.lastUpdated = moment(Date.now()).format("DD/MM/YYYY, h:mm a");
+                }
+                
             });
 
             //console.log(this.aqiDataList);
