@@ -1,7 +1,6 @@
 <template>
   <v-card>
     <v-card-title>Historic AQI Data</v-card-title>
-    
     <v-row>
       <v-col cols="6" sm="12" md="6" lg="6">
         <v-select
@@ -13,6 +12,10 @@
           @change="getHistoricAQIData"
           outlined
         ></v-select>
+      </v-col>
+
+      <v-col cols="6" sm="12" md="6" lg="6">
+        <datepicker placeholder="Select Date"></datepicker>
       </v-col>
 
       <v-col cols="12" sm="12" md="12" lg="12">
@@ -38,15 +41,6 @@
           </div>
         </div>
       </v-col>
-      <!-- <date-range-picker
-          ref="picker"
-          :locale-data="{ firstDay: 1, format: 'dd-mm-yyyy HH:mm:ss' }"
-          
-      >
-          <template v-slot:input="picker" style="min-width: 350px;">
-              {{ picker.startDate | date }} - {{ picker.endDate | date }}
-          </template>
-      </date-range-picker> -->
     </v-row>
   </v-card>
 </template>
@@ -55,13 +49,13 @@
 import axios from 'axios';
 import moment from "moment";
 import LineChart from "./LineChart.js";
-// import DateRangePicker from 'vue2-daterange-picker'
-// import 'vue2-daterange-picker/dist/vue2-daterange-picker.css'
+import Datepicker from 'vuejs-datepicker';
 
 export default {
   name: "HistoricAQIComponent",
   components: {
-    LineChart
+    LineChart,
+    Datepicker
   },
   data: () => ({
     datacollection: null,
@@ -148,7 +142,7 @@ export default {
 
       let config = {
         headers: {
-          'api-token': '534266ba-054e-4b91-881a-eed663212ee9'
+          'api-token': process.env.VUE_APP_API_KEY
         }
       };
 

@@ -1,15 +1,7 @@
 <template>
     <v-row>
         <v-col
-            class="mb-3 mt-2"
-            cols="12"
-            md="12" lg="12" xl="12" sm="12"
-        >
-            <WelcomeComponent />
-        </v-col>
-
-        <v-col
-            class="mb-2"
+            class="mb-2 mt-2 pl-5 pr-5"
             cols="12"
             md="12" lg="12" xl="12" sm="12"
         >
@@ -33,6 +25,7 @@
         </v-col>
 
         <v-col
+            class="pl-5 pr-5"
             cols="6"
             md="12" lg="12" xl="12" sm="12"
         >
@@ -45,7 +38,6 @@
 var uniqid = require('uniqid');
 import moment from 'moment';
 
-import WelcomeComponent from './WelcomeComponent';
 import AQITableComponent from './AQITableComponent';
 import AQIChartComponent from './AQIChartComponent';
 import HistoricAQIComponent from './HistoricAQIComponent';
@@ -54,7 +46,6 @@ import CurrentDayAQIMetricComponent from './CurrentDayAQIMetricComponent';
 export default {
     name: 'AQIComponent',
     components: {
-        WelcomeComponent,
         AQITableComponent,
         AQIChartComponent,
         HistoricAQIComponent,
@@ -64,8 +55,7 @@ export default {
         return {
             connection: null,
             aqiDataList: [],
-            aqiLineChartData: {},
-            apiKey: process.env.API_KEY
+            aqiLineChartData: {}
         };
     },
     mounted() {
@@ -78,17 +68,16 @@ export default {
         console.log("Starting connection to WebSocket Server");
         this.connection = new WebSocket("wss://city-ws.herokuapp.com");
 
-        console.log('api key var: ' + this.apiKey);
-        console.log(process.env.API_KEY);
-
         this.aqiDataList = [];
         this.connection.onmessage = (event) => {
             let aqiDataString = event.data;
             
             let parsedData = JSON.parse(aqiDataString);
 
-            this.aqiLineChartData.lastUpdatedTime = moment(Date.now()).format("h:mm a");
-            this.aqiLineChartData.data = Math.floor(Math.random() * 50);
+            this.aqiLineChartData = {
+                lastUpdatedTime: moment(Date.now()).format("h:mm a"),
+                data: parseFloat(parsedData[0].aqi).toFixed(2)
+            }
 
             parsedData.forEach((aqiData) => {
                 let aqi = aqiData.aqi;
@@ -140,8 +129,6 @@ export default {
                 }
                 
             });
-
-            //console.log(this.aqiDataList);
         };
 
         this.connection.onopen = function (event) {

@@ -1,8 +1,14 @@
 <template>
   <v-row>
-    <v-col class="mb-5" cols="6" md="6" lg="6" xl="6" sm="12">
+    <v-col cols="12" md="6" lg="6" xl="6" sm="12" xs="12">
       <v-card elevation="2">
-        <v-card-title>City with best AQI</v-card-title>
+        <v-img
+          class="white--text align-end"
+          height="200px"
+          :src="require('../assets/clean-city.jpg')"
+        >
+          <v-card-title class="black--text">City with best air quality</v-card-title>
+        </v-img>
 
         <section v-if="error">
           <v-card-text class="text--primary">
@@ -32,9 +38,15 @@
       </v-card>
     </v-col>
 
-    <v-col class="mb-5" cols="6" md="6" lg="6" xl="6" sm="12">
+    <v-col cols="12" md="6" lg="6" xl="6" sm="12" xs="12">
       <v-card elevation="2">
-        <v-card-title>City with poorest AQI</v-card-title>
+        <v-img
+          class="white--text align-end"
+          height="200px"
+          :src="require('../assets/polluted-city.jpg')"
+        >
+          <v-card-title class="black--text">City with worst air quality</v-card-title>
+        </v-img>
 
         <section v-if="error">
           <v-card-text class="text--primary">
@@ -82,7 +94,7 @@ export default {
   },
   methods: {
     formatDate(value) {
-      return moment(value).format("DD, MMM YYYY HH:mm a");
+      return moment(value).format("DD, MMM YYYY hh:mm a");
     },
   },
   mounted() {

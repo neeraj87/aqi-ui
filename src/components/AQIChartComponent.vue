@@ -2,33 +2,34 @@
   <v-container>
     <v-card elevation="2">
       <v-card-title>Live AQI Comparison</v-card-title>
-      <line-chart 
+      <!-- <line-chart 
         :chartData="datacollection"
-      ></line-chart>
+      ></line-chart> -->
     </v-card>
   </v-container>
 </template>
 
 <script>
-import LineChart from "./LineChart.js";
+// import LineChart from "./LineChart.js";
 
 export default {
   name: "AQIChartComponent",
   props: ['aqiLineChartData'],
   components: {
-    LineChart
+    
   },
   data() {
     return {
       datacollection: {
         labels: [],
-        datasets: [],
-      },
-      africa: {
-        data: [],
-        label: "Africa",
-        borderColor: "#3e95cd",
-        fill: false,
+        datasets: [
+          {
+            data: [],
+            label: 'City',
+            borderColor: "#3e95cd",
+            fill: false
+          }
+        ]
       },
       chartOptions: {
         responsive: true,
@@ -52,16 +53,17 @@ export default {
       },
     };
   },
+  created() {
+    
+  },
   watch: {
     'aqiLineChartData': {
       immediate: true,
       deep: true,
-      handler: function(newValue, oldValue) {
-        console.log('Prop changed: ', newValue, ' | was: ', oldValue)
+      handler: function(newValue) {
+        console.log('Prop changed: ', newValue.lastUpdatedTime, ' and data: ', newValue.data)
         this.datacollection.labels.push(newValue.lastUpdatedTime);
-
-        this.africa.data.push(newValue.data);
-        this.datacollection.datasets.push(this.africa);
+        this.datacollection.datasets[0].data.push(newValue.data);
       }
     }
   }
