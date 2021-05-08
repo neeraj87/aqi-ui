@@ -17,6 +17,7 @@
     "vue": "^2.6.11",
     "vue-chartjs": "^3.5.1",
     "vue-meta": "^2.4.0",
+    "vue-toastr": "^2.1.2",
     "vue2-daterange-picker": "^0.6.5",
     "vuejs-datepicker": "^1.6.2",
     "vuetify": "^2.4.0"

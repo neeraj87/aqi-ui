@@ -9,13 +9,27 @@
           item-text="label"
           item-value="value"
           v-model="selectedCity"
-          @change="getHistoricAQIData"
           outlined
         ></v-select>
       </v-col>
 
-      <v-col cols="12" sm="12" md="6" lg="6" xs="12">
-        <datepicker placeholder="Select Date"></datepicker>
+      <v-col cols="12" sm="12" md="2" lg="2" xs="12">
+        Start Date
+        <datepicker placeholder="Select Start Date" v-on:selected="validateSelectedStartDate"></datepicker>
+      </v-col>
+
+      <v-col cols="12" sm="12" md="2" lg="2" xs="12">
+        End Date
+        <datepicker placeholder="Select End Date" v-on:selected="validateSelectedEndDate"></datepicker>
+      </v-col>
+
+      <v-col cols="12" sm="12" md="2" lg="2" xs="12">
+        <v-btn
+          color="primary"
+          elevation="2"
+          small
+          @click="getHistoricAQIData"
+        >Apply Date Range Filter</v-btn>
       </v-col>
     </v-row>
 
@@ -36,7 +50,7 @@
           
           <div v-if="dataNotFoundMessage && !datacollection">
             <v-alert
-              type="info"
+              :type="messageType"
             >
               {{dataNotFoundMessage}}
             </v-alert>
@@ -60,6 +74,9 @@ export default {
     Datepicker
   },
   data: () => ({
+    messageType: 'info',
+    startDate: null,
+    endDate: null,
     datacollection: null,
     lineChartHeight: 150,
     dataNotFoundMessage: '',
@@ -136,11 +153,44 @@ export default {
         label: "Jaipur",
         value: "Jaipur",
       },
-    ],
+    ]
   }),
   methods: {
-    getHistoricAQIData(value) {
+    validateSelectedStartDate(value) {
+      this.startDate = moment(value).valueOf();
+      if(this.endDate && this.startDate > this.endDate) {
+        this.$toastr.e("Filter start date cannot be greater than selected end date");
+        this.messageType = 'error';
+        this.dataNotFoundMessage = 'Filter start date cannot be greater than selected end date';
+      } else {
+        this.resetMessagesToDefaultState();
+      }
+    },
+    validateSelectedEndDate(value) {
+      this.endDate = moment(value).valueOf();
+      if(this.startDate && this.endDate < this.startDate) {
+        this.$toastr.e("Filter end date cannot be smaller than selected start date");
+        this.messageType = 'error';
+        this.dataNotFoundMessage = 'Filter end date cannot be smaller than selected start date';
+      } else {
+        this.resetMessagesToDefaultState();
+      }
+    },
+    resetMessagesToDefaultState() {
+      this.messageType = 'info';
+      this.dataNotFoundMessage = '';
+    },
+    getHistoricAQIData() {
       this.loading = true;
+      this.resetMessagesToDefaultState();
+
+      if(!this.selectedCity) {
+        this.$toastr.e("Please select a city from the dropdown to get the historical AQI data");
+        this.messageType = 'error';
+        this.loading = false;
+        this.dataNotFoundMessage = 'Please select a city from the dropdown to get the historical AQI data';
+        return;
+      }
 
       let config = {
         headers: {
@@ -148,9 +198,14 @@ export default {
         }
       };
 
-      axios.get('https://aqi-server.herokuapp.com/api/v1/get-aqi-data?city=' + value, config).then(response => {
+      let queryParam = 'city=' + this.selectedCity;
+
+      if(this.startDate && this.endDate) {
+        queryParam += '&start=' + this.startDate + '&end=' + this.endDate;
+      }
+
+      axios.get('https://aqi-server.herokuapp.com/api/v1/get-aqi-data?' + queryParam, config).then(response => {
         this.loading = false;
-        this.dataNotFoundMessage = '';
 
         let historicAQIData = response.data;
 
@@ -167,7 +222,7 @@ export default {
 
           datasets.push({
             data: dataSetData,
-            label: value,
+            label: this.selectedCity,
             borderColor: "#3e95cd",
             fill: false,
           });
