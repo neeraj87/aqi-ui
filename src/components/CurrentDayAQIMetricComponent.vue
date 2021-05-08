@@ -91,7 +91,7 @@
         mounted() {
             let config = {
                 headers: {
-                   'api-token': process.env.API_KEY
+                   'api-token': process.env.VUE_APP_API_KEY
                 }
             };
 

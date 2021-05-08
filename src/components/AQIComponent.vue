@@ -16,6 +16,8 @@
             <CurrentDayAQIMetricComponent />
         </v-col>
 
+        <v-divider></v-divider>
+
         <v-col
             class="mb-5"
             cols="6"
@@ -32,6 +34,7 @@
             <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
         </v-col>
 
+        <v-divider></v-divider> 
         <v-col
             class="mb-5"
             cols="12"
