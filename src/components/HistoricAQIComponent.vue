@@ -1,8 +1,8 @@
 <template>
   <v-card>
     <v-card-title>Historic AQI Data</v-card-title>
-    <v-row>
-      <v-col cols="6" sm="12" md="6" lg="6">
+    <v-row class="pl-5 pr-5">
+      <v-col cols="12" sm="12" md="6" lg="6" xs="!2">
         <v-select
           :items="cities"
           label="Select City"
@@ -14,11 +14,11 @@
         ></v-select>
       </v-col>
 
-      <v-col cols="6" sm="12" md="6" lg="6">
+      <v-col cols="12" sm="12" md="6" lg="6" xs="12">
         <datepicker placeholder="Select Date"></datepicker>
       </v-col>
 
-      <v-col cols="12" sm="12" md="12" lg="12">
+      <v-col cols="12" sm="12" md="12" lg="12" xs="12">
         <div v-if="loading" class="text-center">
           <v-progress-circular
             :width="3"

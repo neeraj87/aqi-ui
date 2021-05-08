@@ -26,8 +26,8 @@
 
         <v-col
             class="pl-5 pr-5"
-            cols="6"
-            md="12" lg="12" xl="12" sm="12"
+            cols="12"
+            md="12" lg="12" xl="12" sm="12" xs="12"
         >
             <HistoricAQIComponent />
         </v-col>
