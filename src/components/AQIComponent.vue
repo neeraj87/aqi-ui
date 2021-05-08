@@ -25,7 +25,7 @@
         </v-col>
 
         <v-col
-            class="pl-5 pr-5"
+            class="mb-5 pl-5 pr-5"
             cols="12"
             md="12" lg="12" xl="12" sm="12" xs="12"
         >

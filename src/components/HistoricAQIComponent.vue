@@ -17,7 +17,9 @@
       <v-col cols="12" sm="12" md="6" lg="6" xs="12">
         <datepicker placeholder="Select Date"></datepicker>
       </v-col>
+    </v-row>
 
+    <v-row>
       <v-col cols="12" sm="12" md="12" lg="12" xs="12">
         <div v-if="loading" class="text-center">
           <v-progress-circular
@@ -29,7 +31,7 @@
 
         <div v-if="!error && !loading">
           <div v-if="!dataNotFoundMessage && datacollection">
-            <line-chart :chartData="datacollection" :height="lineChartData"></line-chart>
+            <line-chart :chartData="datacollection" :height="lineChartHeight"></line-chart>
           </div>
           
           <div v-if="dataNotFoundMessage && !datacollection">
@@ -59,7 +61,7 @@ export default {
   },
   data: () => ({
     datacollection: null,
-    lineChartData: 100,
+    lineChartHeight: 150,
     dataNotFoundMessage: '',
     chartOptions: {
       responsive: true,
