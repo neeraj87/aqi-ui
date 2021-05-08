@@ -1,8 +1,8 @@
 <template>
   <v-card>
-    <v-card-title>Historic AQI Data</v-card-title>
+    <v-card-title>Historical AQI Data</v-card-title>
     <v-row class="pl-5 pr-5">
-      <v-col cols="12" sm="12" md="6" lg="6" xs="!2">
+      <v-col cols="12" sm="12" md="6" lg="6" xs="12">
         <v-select
           :items="cities"
           label="Select City"

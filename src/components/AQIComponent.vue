@@ -25,6 +25,14 @@
         </v-col>
 
         <v-col
+            class="mb-2 pl-5 pr-5"
+            cols="12"
+            md="12" lg="12" xl="12" sm="12" xs="12"
+        >
+            <AQIComparisonComponent />
+        </v-col>
+
+        <v-col
             class="mb-5 pl-5 pr-5"
             cols="12"
             md="12" lg="12" xl="12" sm="12" xs="12"
@@ -40,6 +48,7 @@ import moment from 'moment';
 
 import AQITableComponent from './AQITableComponent';
 import AQIChartComponent from './AQIChartComponent';
+import AQIComparisonComponent from './AQIComparisonComponent';
 import HistoricAQIComponent from './HistoricAQIComponent';
 import CurrentDayAQIMetricComponent from './CurrentDayAQIMetricComponent';
 
@@ -48,6 +57,7 @@ export default {
     components: {
         AQITableComponent,
         AQIChartComponent,
+        AQIComparisonComponent,
         HistoricAQIComponent,
         CurrentDayAQIMetricComponent
     },
@@ -74,14 +84,16 @@ export default {
             
             let parsedData = JSON.parse(aqiDataString);
 
-            this.aqiLineChartData = {
-                lastUpdatedTime: moment(Date.now()).format("h:mm a"),
-                data: parseFloat(parsedData[0].aqi).toFixed(2)
-            }
-
             parsedData.forEach((aqiData) => {
                 let aqi = aqiData.aqi;
                 let aqiCategory, aqiCategoryColor, aqiCategoryColorClass;
+
+                if(aqiData.city === 'Indore') {
+                    this.aqiLineChartData = {
+                        lastUpdatedTime: moment(Date.now()).format("h:mm a"),
+                        data: parseFloat(aqiData.aqi).toFixed(2)
+                    }
+                }
 
                 if (aqi <= 50) {
                     aqiCategory = "Good";

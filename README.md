@@ -4,12 +4,15 @@
 
 ## Project timeline
 Time taken: 2 days
+
 List of features built:
 1. Reading AQI data from the WebSocket and displaying/updating data on the page
 2. Showing city with poorest and best air quality index for current day
 3. Show all AQI data for a selected city for the current day
 4. Show historic AQI data for a selected city based on selected dates
-5. Making application mobile friendly
+5. Perform AQI comparison between two cities for the current day
+6. Showing live AQI trend chart for the city of Indore
+7. Making application mobile friendly
 . 
 
 ## Project setup
