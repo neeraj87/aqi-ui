@@ -38,3 +38,6 @@ npm run build
 # Deployed Application
 
 Application is deployed [here](https://nostalgic-brattain-146f18.netlify.app/)
+
+# Swagger Spec
+Open API Spec can be found [here](https://github.com/neeraj87/aqi-server/blob/master/specs/aqi-server.yaml)
