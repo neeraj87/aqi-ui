@@ -29,7 +29,7 @@
           elevation="2"
           small
           @click="getHistoricAQIData"
-        >Apply Date Range Filter</v-btn>
+        >Apply Filter</v-btn>
       </v-col>
     </v-row>
 
@@ -204,7 +204,7 @@ export default {
         queryParam += '&start=' + this.startDate + '&end=' + this.endDate;
       }
 
-      axios.get('https://aqi-server.herokuapp.com/api/v1/get-aqi-data?' + queryParam, config).then(response => {
+      axios.get(`${process.env.VUE_APP_API_URL}/api/v1/get-aqi-data?` + queryParam, config).then(response => {
         this.loading = false;
 
         let historicAQIData = response.data;
@@ -216,7 +216,7 @@ export default {
         if(historicAQIData && historicAQIData.length > 0) {
           
           historicAQIData.forEach(aqiData => {
-            labels.push(moment(aqiData.lastUpdated).format("DD, MMM YYYY HH:mm a"));
+            labels.push(moment(aqiData.lastUpdated).format("DD, MMM YYYY hh:mm a"));
             dataSetData.push(aqiData.aqi);
           });
 

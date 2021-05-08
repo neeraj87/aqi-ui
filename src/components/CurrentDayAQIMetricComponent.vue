@@ -105,7 +105,7 @@ export default {
     };
 
     axios
-      .get("https://aqi-server.herokuapp.com/api/v1/min-max-aqi", config)
+      .get(`${process.env.VUE_APP_API_URL}/api/v1/min-max-aqi`, config)
       .then((response) => {
         this.goodAQI = response.data.minAQI ? response.data.minAQI[0] : null;
         this.poorAQI = response.data.maxAQI ? response.data.maxAQI[0] : null;
