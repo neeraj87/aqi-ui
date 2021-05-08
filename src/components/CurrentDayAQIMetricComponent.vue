@@ -97,7 +97,6 @@ export default {
       .then((response) => {
         this.goodAQI = response.data.minAQI ? response.data.minAQI[0] : null;
         this.poorAQI = response.data.maxAQI ? response.data.maxAQI[0] : null;
-        console.log("good aqi: " + JSON.stringify(this.goodAQI));
       })
       .catch((error) => {
         this.error = true;
