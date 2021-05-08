@@ -1,39 +1,45 @@
 <template>
-    <!-- <v-container> -->
-        <v-row>
-            <v-col
-                class="mb-5"
-                cols="12"
-                md="12" lg="12" xl="12" sm="12"
-            >
-               <WelcomeComponent />
-            </v-col>
+    <v-row>
+        <v-col
+            class="mb-3 mt-2"
+            cols="12"
+            md="12" lg="12" xl="12" sm="12"
+        >
+            <WelcomeComponent />
+        </v-col>
 
-            <v-col
-                class="mb-5"
-                cols="6"
-                md="12" lg="6" xl="6" sm="12"
-            >
-               <AQITableComponent :aqiList="aqiDataList" />
-            </v-col>
+        <v-col
+            class="mb-2"
+            cols="12"
+            md="12" lg="12" xl="12" sm="12"
+        >
+            <CurrentDayAQIMetricComponent />
+        </v-col>
 
-            <v-col
-                class="mb-5"
-                cols="6"
-                md="12" lg="6" xl="6" sm="12"
-            >
-                <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
-            </v-col>
+        <v-col
+            class="mb-5"
+            cols="6"
+            md="12" lg="6" xl="6" sm="12"
+        >
+            <AQITableComponent :aqiList="aqiDataList" />
+        </v-col>
 
-            <v-col
-                class="mb-5"
-                cols="12"
-                md="12" lg="12" xl="12" sm="12"
-            >
-               <HistoricAQIComponent />
-            </v-col>
-        </v-row>
-    <!-- </v-container> -->
+        <v-col
+            class="mb-5"
+            cols="6"
+            md="12" lg="6" xl="6" sm="12"
+        >
+            <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
+        </v-col>
+
+        <v-col
+            class="mb-5"
+            cols="12"
+            md="12" lg="12" xl="12" sm="12"
+        >
+            <HistoricAQIComponent />
+        </v-col>
+    </v-row>
 </template>
 
 <script>
@@ -44,6 +50,7 @@ import WelcomeComponent from './WelcomeComponent';
 import AQITableComponent from './AQITableComponent';
 import AQIChartComponent from './AQIChartComponent';
 import HistoricAQIComponent from './HistoricAQIComponent';
+import CurrentDayAQIMetricComponent from './CurrentDayAQIMetricComponent';
 
 export default {
     name: 'AQIComponent',
@@ -51,17 +58,19 @@ export default {
         WelcomeComponent,
         AQITableComponent,
         AQIChartComponent,
-        HistoricAQIComponent
+        HistoricAQIComponent,
+        CurrentDayAQIMetricComponent
     },
     data: function () {
         return {
             connection: null,
             aqiDataList: [],
-            aqiLineChartData: {}
+            aqiLineChartData: {},
+            apiKey: process.env.API_KEY
         };
     },
     mounted() {
-    
+        
     },
     methods: {
         
@@ -70,9 +79,11 @@ export default {
         console.log("Starting connection to WebSocket Server");
         this.connection = new WebSocket("wss://city-ws.herokuapp.com");
 
+        console.log('api key var: ' + this.apiKey);
+        console.log(process.env.API_KEY);
+
         this.aqiDataList = [];
         this.connection.onmessage = (event) => {
-            //console.log(event.data);
             let aqiDataString = event.data;
             
             let parsedData = JSON.parse(aqiDataString);
