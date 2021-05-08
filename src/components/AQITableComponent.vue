@@ -83,7 +83,6 @@
                 </template>
             </v-simple-table>
         </v-card>
-        
     </v-container>
 </template>
 

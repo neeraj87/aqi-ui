@@ -16,28 +16,24 @@
             <CurrentDayAQIMetricComponent />
         </v-col>
 
-        <v-divider></v-divider>
-
         <v-col
-            class="mb-5"
-            cols="6"
+            class="mb-2"
+            cols="12"
             md="12" lg="6" xl="6" sm="12"
         >
             <AQITableComponent :aqiList="aqiDataList" />
         </v-col>
 
         <v-col
-            class="mb-5"
-            cols="6"
+            class="mb-2"
+            cols="12"
             md="12" lg="6" xl="6" sm="12"
         >
             <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
         </v-col>
 
-        <v-divider></v-divider> 
         <v-col
-            class="mb-5"
-            cols="12"
+            cols="6"
             md="12" lg="12" xl="12" sm="12"
         >
             <HistoricAQIComponent />

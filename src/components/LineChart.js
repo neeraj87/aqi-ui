@@ -9,8 +9,12 @@ export default {
     this.renderChart(this.chartData, this.options)
   },
   watch: {
-    chartData() {
-      this.renderChart(this.chartData, this.options)
+    'chartData': {
+      immediate: true,
+      deep: true,
+      handler: function() {
+        this.renderChart(this.chartData, this.options)
+      }
     }
   }
 }

@@ -27,13 +27,11 @@
       <AQIComponent/>
     </v-main>
 
-    <DashboardFooter />
   </v-app>
 </template>
 
 <script>
 import AQIComponent from "./components/AQIComponent";
-import DashboardFooter from './components/DashboardFooter';
 
 export default {
   name: 'App',
@@ -41,8 +39,7 @@ export default {
     title: 'AQI Dashboard'    
   },
   components: {
-    AQIComponent,
-    DashboardFooter
+    AQIComponent
   },
   data: () => ({
     //

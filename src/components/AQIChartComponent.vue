@@ -55,14 +55,14 @@ export default {
   watch: {
     'aqiLineChartData': {
       immediate: true,
+      deep: true,
       handler: function(newValue, oldValue) {
         console.log('Prop changed: ', newValue, ' | was: ', oldValue)
         this.datacollection.labels.push(newValue.lastUpdatedTime);
 
         this.africa.data.push(newValue.data);
         this.datacollection.datasets.push(this.africa);
-      },
-      deep: true
+      }
     }
   }
 };
