@@ -6,12 +6,6 @@
         :chartData="lineChartDataCollection" :options="lineChartOptions"
       ></line-chart>
     </v-card>
-
-    <v-img
-      class="mt-2"
-      height="100%"
-      :src="require('../assets/what-is-aqi.jpg')"
-    ></v-img>
   </v-container>
 </template>
 
