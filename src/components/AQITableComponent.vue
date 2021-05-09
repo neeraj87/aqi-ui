@@ -1,5 +1,5 @@
 <template>
-    <!-- <v-container> -->
+    <v-container>
         <v-card
         elevation="2"
         >
@@ -83,7 +83,7 @@
                 </template>
             </v-simple-table>
         </v-card>
-    <!-- </v-container> -->
+    </v-container>
 </template>
 
 <script>

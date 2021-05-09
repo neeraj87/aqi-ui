@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card elevation="2">
-      <v-card-title>Live AQI Trend</v-card-title>
+      <v-card-title>Live AQI Trend for Indore (every 5 minutes)</v-card-title>
       <line-chart 
         :chartData="lineChartDataCollection" :options="lineChartOptions"
       ></line-chart>
@@ -20,7 +20,7 @@ export default {
   },
   data() {
     return {
-      lineChartDataCollection: null,
+      lineChartDataCollection: {},
       lineChartOptions: {
         responsive: true,
         maintainAspectRatio: false,
@@ -44,7 +44,7 @@ export default {
       },
     };
   },
-  created() {
+  mounted() {
     this.lineChartDataCollection = {
       labels: [],
       datasets: [
@@ -61,6 +61,7 @@ export default {
     aqiLineChartData: {
       immediate: true,
       handler(newValue) {
+        console.log('new value on watcher: ' + JSON.stringify(newValue));
         // if the array length becomes more than 20 then remove the first element so keep the data fresh
         //this is just a temporary front-end solution as compared to paginated chart data
         if(this.lineChartDataCollection.labels.length > 20) {

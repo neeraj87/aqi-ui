@@ -11,18 +11,18 @@
         <v-col
             class="mb-2 pl-5 pr-5"
             cols="12"
-            md="12" lg="12" xl="12" sm="12"
+            md="12" lg="6" xl="6" sm="12"
         >
             <AQITableComponent :aqiList="aqiDataList" />
         </v-col>
 
-        <!-- <v-col
+        <v-col
             class="mb-2"
             cols="12"
             md="12" lg="6" xl="6" sm="12"
         >
             <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
-        </v-col> -->
+        </v-col>
 
         <v-col
             class="mb-2 pl-5 pr-5"
@@ -47,7 +47,7 @@ var uniqid = require('uniqid');
 import moment from 'moment';
 
 import AQITableComponent from './AQITableComponent';
-// import AQIChartComponent from './AQIChartComponent';
+import AQIChartComponent from './AQIChartComponent';
 import AQIComparisonComponent from './AQIComparisonComponent';
 import HistoricAQIComponent from './HistoricAQIComponent';
 import CurrentDayAQIMetricComponent from './CurrentDayAQIMetricComponent';
@@ -57,6 +57,7 @@ export default {
     components: {
         AQITableComponent,
         AQIComparisonComponent,
+        AQIChartComponent,
         HistoricAQIComponent,
         CurrentDayAQIMetricComponent
     },
@@ -74,11 +75,13 @@ export default {
         
     },
     created: function () {
+        let lastTimestampOfAQIPing = null;
         console.log("Starting connection to WebSocket Server");
         this.connection = new WebSocket("wss://city-ws.herokuapp.com");
 
         this.aqiDataList = [];
         this.connection.onmessage = (event) => {
+            let currentUnixTime = moment().valueOf();
             let aqiDataString = event.data;
             
             let parsedData = JSON.parse(aqiDataString);
@@ -86,11 +89,25 @@ export default {
             parsedData.forEach((aqiData) => {
                 let aqi = aqiData.aqi;
                 let aqiCategory, aqiCategoryColor, aqiCategoryColorClass;
-
+                
+                //City of Indore was chosen for AQI trend because it has the most variable data
+                // where the AQI value shows variations +2 and -2 points from the base line of ~50
+                // due to this variation we can see the trend over a period of time
                 if(aqiData.city === 'Indore') {
-                    this.aqiLineChartData = {
-                        lastUpdatedTime: moment(Date.now()).format("h:mm a"),
-                        data: parseFloat(aqiData.aqi).toFixed(2)
+                    if(lastTimestampOfAQIPing == null) {
+                        lastTimestampOfAQIPing = currentUnixTime;
+                        this.aqiLineChartData = {
+                            lastUpdatedTime: moment(Date.now()).format("h:mm a"),
+                            data: parseFloat(aqiData.aqi).toFixed(2)
+                        }
+                    } else {
+                        if(moment(currentUnixTime).diff(moment.utc(lastTimestampOfAQIPing), 'minutes') > 5) {
+                            lastTimestampOfAQIPing = currentUnixTime;
+                            this.aqiLineChartData = {
+                                lastUpdatedTime: moment(Date.now()).format("h:mm a"),
+                                data: parseFloat(aqiData.aqi).toFixed(2)
+                            }
+                        }
                     }
                 }
 
