@@ -11,18 +11,18 @@
         <v-col
             class="mb-2 pl-5 pr-5"
             cols="12"
-            md="12" lg="6" xl="6" sm="12"
+            md="12" lg="12" xl="12" sm="12"
         >
             <AQITableComponent :aqiList="aqiDataList" />
         </v-col>
 
-        <v-col
+        <!-- <v-col
             class="mb-2"
             cols="12"
             md="12" lg="6" xl="6" sm="12"
         >
             <AQIChartComponent :aqiLineChartData="aqiLineChartData"/>
-        </v-col>
+        </v-col> -->
 
         <v-col
             class="mb-2 pl-5 pr-5"
@@ -47,7 +47,7 @@ var uniqid = require('uniqid');
 import moment from 'moment';
 
 import AQITableComponent from './AQITableComponent';
-import AQIChartComponent from './AQIChartComponent';
+// import AQIChartComponent from './AQIChartComponent';
 import AQIComparisonComponent from './AQIComparisonComponent';
 import HistoricAQIComponent from './HistoricAQIComponent';
 import CurrentDayAQIMetricComponent from './CurrentDayAQIMetricComponent';
@@ -57,7 +57,6 @@ export default {
     components: {
         AQITableComponent,
         AQIComparisonComponent,
-        AQIChartComponent,
         HistoricAQIComponent,
         CurrentDayAQIMetricComponent
     },
